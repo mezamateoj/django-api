@@ -4,13 +4,13 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 
 class UserProfileManager(BaseUserManager):
     """Manager for user profiles"""
-    
+
     def create_user(self, email, name, password=None):
         """Create a new user profile"""
 
         if not email:
             raise ValueError('User must have an email')
-        
+
         # normalize the email address
         email = self.normalize_email(email)
         user = self.model(email=email, name=name)
@@ -19,10 +19,8 @@ class UserProfileManager(BaseUserManager):
         user.save(using=self._db)
 
         return user
-    
 
     def create_superuser(self, email, name, password):
-
         user = self.create_user(email, name, password)
 
         user.is_superuser = True
@@ -32,9 +30,9 @@ class UserProfileManager(BaseUserManager):
         return user
 
 
-
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     """DB model for users in the api"""
+
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
@@ -51,8 +49,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     def get_full_name(self):
         """Get full name of an user"""
         return self.name
-    
+
     # string repr of our user
     def __str__(self) -> str:
         return self.email
-
