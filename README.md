@@ -1,2 +1,3 @@
-# django-api
-code of my first django api. 
+# Django project 
+
+Simple Api to learn and practice Django
