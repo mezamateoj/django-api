@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'profiles',
+    'hello',
 ]
 
 MIDDLEWARE = [
@@ -82,16 +84,16 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 if os.environ.get('STAGE') == 'dev-local':
     DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": os.path.join(BASE_DIR, '.db/devdb.sqlite3'),
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, '.db/devdb.sqlite3'),
         }
     }
-elif os.environ.get('STAGE') == 'prod' or os.environ.get('STAGE') == 'dev-cloud' :
+elif os.environ.get('STAGE') == 'prod' or os.environ.get('STAGE') == 'dev-cloud':
     if os.environ.get('DB_TYPE') == 'sqlserver':
         DATABASES = {
-            "default": {
-                "ENGINE": "mssql",
+            'default': {
+                'ENGINE': 'mssql',
                 'NAME': os.environ.get('DB_NAME'),
                 'USER': os.environ.get('DB_USER'),
                 'PASSWORD': os.environ.get('DB_PASSWORD'),
@@ -99,22 +101,24 @@ elif os.environ.get('STAGE') == 'prod' or os.environ.get('STAGE') == 'dev-cloud'
                 'PORT': os.environ.get('DB_PORT', '1433'),
                 'OPTIONS': {
                     'driver': 'ODBC Driver 17 for SQL Server',
-                }
+                },
             }
         }
     elif os.environ.get('DB_TYPE') == 'postgresql':
         DATABASES = {
-            "default": {
-                "ENGINE": "django.db.backends.postgresql",
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
                 'NAME': os.environ.get('DB_NAME'),
                 'USER': os.environ.get('DB_USER'),
                 'PASSWORD': os.environ.get('DB_PASSWORD'),
                 'HOST': os.environ.get('DB_HOST'),
-                'PORT': os.environ.get('DB_PORT', '1433')
+                'PORT': os.environ.get('DB_PORT', '1433'),
             }
         }
 else:
-    raise EnvironmentError('Variable STAGE not defined or doesnt have a valid value ( prod o dev ).')
+    raise EnvironmentError(
+        'Variable STAGE not defined or doesnt have a valid value ( prod o dev ).'
+    )
 
 
 # Password validation
@@ -157,3 +161,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+AUTH_USER_MODEL = 'profiles.UserProfile'
