@@ -23,4 +23,5 @@ from profiles import urls as profile_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(profile_urls)),
+    path('', include('hello.urls')),
 ]
