@@ -9,5 +9,5 @@ router.register('api/hello-viewset', views.HelloViewSet, basename='hello-viewset
 
 urlpatterns = [
     path('api/hello', views.HelloView.as_view(), name='hello-view'),
-    path('', include(router.urls))
+    path('', include(router.urls)),
 ]
