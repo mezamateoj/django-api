@@ -3,6 +3,9 @@ from .models import UserProfile
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
+
+    # this sets to point to the model 
+    # also set the field that we will make available
     class Meta:
         model = UserProfile
         fields = ('email', 'name', 'password')
@@ -16,3 +19,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
             password=validated_data['password'],
         )
         return user
+    
+    def update(self, instance, validated_data):
+        """Handle updating user account"""
+        if 'password' in validated_data:
+            password = validated_data.pop('password')
+            instance.set_password(password)
+ 
+        return super().update(instance, validated_data)
