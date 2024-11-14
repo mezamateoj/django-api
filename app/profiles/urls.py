@@ -9,5 +9,5 @@ router.register('api/profile-view', views.ProfileViewSet)
 
 urlpatterns = [
     path('api/profile', views.Profile.as_view(), name='create-profile'),
-    path('', include(router.urls))
+    path('', include(router.urls)),
 ]
