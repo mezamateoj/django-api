@@ -7,6 +7,7 @@ from .models import UserProfile
 from rest_framework import viewsets
 from .permissions import UpdateProfile
 from rest_framework.authentication import TokenAuthentication
+from rest_framework import filters
 
 
 class Profile(APIView):
@@ -31,9 +32,13 @@ class Profile(APIView):
 
 class ProfileViewSet(viewsets.ModelViewSet):
     """Handle creating and updating profiles"""
-
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (UpdateProfile,)
+    # permission so we can update other users, etc.
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [UpdateProfile]
 
     serializer_class = UserProfileSerializer
     queryset = UserProfile.objects.all()
+
+    # query using /?search=name
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name', 'email']

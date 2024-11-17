@@ -7,7 +7,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     # also set the field that we will make available
     class Meta:
         model = UserProfile
-        fields = ('email', 'name', 'password')
+        fields = ('id', 'email', 'name', 'password')
         extra_kwargs = {'password': {'write_only': True, 'style': {'input_type': 'password'}}}
 
     def create(self, validated_data):
