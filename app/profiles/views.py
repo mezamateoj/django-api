@@ -2,12 +2,15 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.request import Request
-from .serializers import UserProfileSerializer
+from .serializers import UserProfileSerializer, AuthTokenSerializer
 from .models import UserProfile
 from rest_framework import viewsets
 from .permissions import UpdateProfile
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
+from rest_framework.settings import api_settings
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
 
 
 class Profile(APIView):
@@ -42,3 +45,24 @@ class ProfileViewSet(viewsets.ModelViewSet):
     # query using /?search=name
     filter_backends = [filters.SearchFilter]
     search_fields = ['name', 'email']
+
+
+class UserLoginApiView(ObtainAuthToken):
+    """Handle creating user auth tokens"""
+
+    # serializer_class = AuthTokenSerializer
+    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
+
+    # def post(self, request: Request, *args, **kwargs):
+    #     serializer = self.serializer_class(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+
+    #     user = serializer.validated_data['email']
+    #     token, created = Token.objects.get_or_create(user=user)
+    #     return Response({
+    #         'token': token.key,
+    #         'id': user.pk,
+    #         'email': user.email
+    #     })
+
+
