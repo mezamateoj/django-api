@@ -12,3 +12,15 @@ class UpdateProfile(BasePermission):
         # if the user tries to make a put object then we need this check
         # check if the obj we are updating matches the id of user of the request
         return obj.id == request.user.id
+
+
+class UpdateUserFeed(BasePermission):
+    """Allow user to update there own profile status"""
+
+    def has_object_permission(self, request: Request, view, obj):
+        """Check the user is trying to update their own status"""
+        if request.method in SAFE_METHODS:
+            return True
+        # if the user tries to make a put object then we need this check
+        # check if the obj we are updating matches the id of user of the request
+        return obj.user_profile.id == request.user.id
